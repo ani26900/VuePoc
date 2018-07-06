@@ -22,6 +22,7 @@
   </header>
 </template>
 <script>
+import {mapActions} from 'vuex';
 export default {
   computed:{
     auth () {
@@ -29,9 +30,12 @@ export default {
     }
   },
   methods: {
-    onlogout(){
-      this.$store.dispatch('logout')
-    }
+    // onlogout(){
+    //   this.$store.dispatch('logout')
+    // }
+    ...mapActions({
+      onlogout:'logout'
+    })
   }
 }
 </script>

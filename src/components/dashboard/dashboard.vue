@@ -25,12 +25,32 @@
 </template>
 <script>
 import axios from 'axios';
+import {mapGetters} from 'vuex';
 
 export default {
   computed: {
     email(){
       return !this.$store.getters.user? false:this.$store.getters.user.email
-    }
+    },
+     filteredCountries:function()
+     {   
+      //  var self=this;
+     // Countries.map(countryname => {countryname});
+      this.Countries=this.$store.getters.countrylist;
+
+     return  this.Countries.filter((ele) => {
+      console.log(ele)       
+       return ele.countryname.toLowerCase().match(this.search.toLowerCase());
+       
+     })
+      /*
+       return this.Countries.filter(function(cust){return cust.countryname.toLowerCase().indexOf(self.search.toLowerCase())>=0;});
+    */
+    },
+    ...mapGetters({
+        fetchUser: 'countrylist'
+    }),
+
   },
 
   data() {
@@ -40,16 +60,7 @@ export default {
     }
   
   },
- computed:
-{
-    filteredCountries:function()
-    {
-       var self=this;
-       this.Countries=this.$store.state.Countries;
-       return this.Countries.filter(function(cust){return cust.countryname.toLowerCase().indexOf(self.search.toLowerCase())>=0;});
-       //return this.customers;
-    }
-},
+
   created() {
     this.$store.dispatch('fetchUser')
   }
